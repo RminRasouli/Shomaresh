@@ -324,7 +324,7 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
   function cl(rows,max,sm){return '<div class="cols'+(sm?" sm":"")+'">'+rows.map(function(r){return '<div class="col'+(r[3]?" ok":"")+(r[4]?" cur":"")+'"><em>'+r[2]+'</em><i style="height:'+Math.max(2,max?r[1]/max*(sm?44:120):0)+'px"></i><span>'+r[0]+'</span></div>'}).join("")+'</div>'}
   function saveFile(blob,fn,ok){
     var u=window.claude&&claude.use?claude.use("downloads"):Promise.resolve(null);
-    u.then(function(d){if(!d){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);toast(ok);return}
+    u.then(function(d){if(!d){toast("ذخیرهٔ فایل در این نمایش ممکن نیست");return}
       return d.save({filename:fn,data:blob}).then(function(){toast(ok)},function(e){if(!e||e.code!=="declined")toast("ذخیره نشد")})},function(){toast("ذخیرهٔ فایل در این نمایش ممکن نیست")});
   }
   function en(s){return String(s==null?"":s).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776}).replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632})}
@@ -347,9 +347,11 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
     if(parts.length<2)return null;
     var order=parts[0].replace(/^\s*\d+\.\s+/,"").trim();
     var tail=parts[parts.length-1],task=parts.length>=3?parts.slice(1,-1).join(" - ").trim():"";
-    var tm=tail.match(/(\d{1,2}):(\d{2})/),dm=tail.match(/(\d{1,2})\s+([^\d\s،,:]+)\s+(\d{4})/);
-    if(!dm||!JM[dm[2]])return null;
-    var g=j2g(+dm[3],JM[dm[2]],+dm[1]);
+    var tm=tail.match(/(\d{1,2}):(\d{2})/),dm=tail.match(/(\d{1,2})\s+([^\d\s،,:]+)\s+(\d{4})/),yv,mv,dv;
+    if(dm){dv=+dm[1];mv=JM[dm[2]];yv=+dm[3]}
+    else{dm=tail.match(/(\d{4})\s+([^\d\s،,:]+)\s+(\d{1,2})(?!\d|:)/);if(dm){yv=+dm[1];mv=JM[dm[2]];dv=+dm[3]}}
+    if(!dm||!mv)return null;
+    var g=j2g(yv,mv,dv);
     var t=new Date(g[0],g[1]-1,g[2],tm?+tm[1]:0,tm?+tm[2]:0).getTime();
     if(!order||order==="بدون شماره"||isNaN(t))return null;
     return {r:order,k:task,t:t};
@@ -549,7 +551,11 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
     XLSX.utils.book_append_sheet(wb,ws,"ثبت‌ها");
     var out=XLSX.write(wb,{bookType:"xlsx",type:"array"});
     var n=new Date(),fn="orders-"+n.getFullYear()+pad(n.getMonth()+1)+pad(n.getDate())+".xlsx";
-    saveFile(new Blob([out],{type:"application/octet-stream"}),fn,"فایل اکسل آماده شد");
+    var u=window.claude&&claude.use?claude.use("downloads"):Promise.resolve(null);
+    u.then(function(d){
+      if(!d){var tsv=rows.map(function(r){return r.join("\t")}).join("\n");try{navigator.clipboard.writeText(tsv).then(function(){toast("ذخیره فایل ممکن نیست؛ جدول کپی شد. در Excel با Ctrl+V بچسبانید")},function(){toast("ذخیره فایل ممکن نیست")})}catch(e){toast("ذخیره فایل ممکن نیست")}return}
+      return d.save({filename:fn,data:new Blob([out],{type:"application/octet-stream"})}).then(function(){toast("فایل اکسل آماده شد")},function(e){if(!e||e.code!=="declined")toast("ذخیره نشد")});
+    },function(){toast("ذخیرهٔ فایل در این نمایش ممکن نیست")});
   }
 
   function parseSrc(s){
