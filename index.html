@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>سفارش‌یار</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef2f5;--sf:#fff;--ink:#14232e;--mu:#5d7080;--ln:#d5dee5;--ac:#1f6f5c;--ai:#fff;--dg:#b3372f;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0f1a21;--sf:#17252e;--ink:#e6eef3;--mu:#8da1b0;--ln:#2a3b46;--ac:#3fb596;--ai:#06231c;--dg:#ff8a80}}
+:root[data-theme="dark"]{--bg:#0f1a21;--sf:#17252e;--ink:#e6eef3;--mu:#8da1b0;--ln:#2a3b46;--ac:#3fb596;--ai:#06231c;--dg:#ff8a80}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",Tahoma,"Segoe UI",sans-serif;line-height:1.7}
+main{max-width:540px;margin:0 auto;padding:16px 14px 40px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+h1{font-size:1.1rem;font-weight:800;margin:0}
+.ico{font:inherit;font-size:1.2rem;background:var(--sf);border:1px solid var(--ln);border-radius:10px;width:40px;height:40px;color:var(--ink);cursor:pointer}
+.card,.hero{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px;margin-bottom:12px}
+.hero{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.hero.done{--ac:#c98a1a}
+.ring{--p:0;flex:none;width:96px;height:96px;border-radius:50%;background:conic-gradient(var(--ac) calc(var(--p)*1%),var(--bg) 0);display:grid;place-items:center;transition:background .3s}
+.ring>div{width:76px;height:76px;border-radius:50%;background:var(--sf);display:grid;place-items:center}
+.pc{font-size:1.45rem;font-weight:800;color:var(--ac)}
+.hi{flex:1;min-width:150px}
+.ht{font-weight:600}
+.pt{font-size:.85rem;color:var(--mu)}
+.tb{display:flex;flex-wrap:wrap;gap:6px;width:100%}
+.pill{font:inherit;font-size:.78rem;padding:2px 10px;border-radius:99px;border:1px solid var(--ln);background:var(--bg);color:var(--ink);cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.stats div{background:var(--sf);border:1px solid var(--ln);border-radius:10px;padding:6px;text-align:center}
+.stats b{display:block;font-size:1.25rem;font-weight:800}
+.stats span{font-size:.75rem;color:var(--mu)}
+.lab,label.f{display:block;font-size:.85rem;color:var(--mu);margin:10px 0 4px}
+.lab:first-child{margin-top:0}
+.grp{margin-top:22px}
+.grp:first-child{margin-top:0}
+.lr{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;min-height:30px}
+.lr .lab{margin:0}
+.seg{display:inline-flex;border:1px solid var(--ln);border-radius:999px;overflow:hidden}
+.seg label{position:relative;padding:3px 14px;font-size:.8rem;cursor:pointer}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label:has(input:checked){background:var(--ac);color:var(--ai)}
+.seg label:has(input:focus-visible){outline:3px solid var(--ac);outline-offset:-3px}
+.cap{text-align:center;font-size:.78rem;color:var(--mu);margin:8px 0 0}
+input[type=text],input[type=number],input[type=search],select,textarea{width:100%;font:inherit;padding:11px 12px;border-radius:10px;border:1px solid var(--ln);background:var(--bg);color:var(--ink)}
+textarea{resize:vertical}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts label{position:relative;padding:8px 12px;border:1px solid var(--ln);border-radius:999px;background:var(--bg);cursor:pointer;font-size:.92rem}
+.opts input{position:absolute;opacity:0;pointer-events:none}
+.opts label:has(input:checked){background:var(--ac);color:var(--ai);border-color:var(--ac)}
+.opts label:has(input:focus-visible),input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var(--ac);outline-offset:2px}
+#order{font-size:1.15rem;padding:14px}
+.go{display:block;width:100%;text-align:center;text-decoration:none;font:inherit;font-weight:800;font-size:1.1rem;padding:15px;border-radius:12px;background:var(--ac);color:var(--ai);margin-top:24px}
+.row{display:flex;gap:8px;margin-top:8px}
+.ghost{flex:1;font:inherit;font-size:.88rem;padding:9px;border-radius:10px;border:1px solid var(--ln);background:none;color:var(--ink);cursor:pointer}
+.ghost.pri{background:var(--ac);color:var(--ai);border-color:var(--ac)}
+.qrow{display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:.85rem;color:var(--mu);min-height:1.6em}
+h2{font-size:.95rem;margin:18px 0 8px;display:flex;justify-content:space-between;align-items:center}
+#settings h2{margin-top:0}
+.link{font:inherit;font-size:.82rem;background:none;border:0;color:var(--ac);cursor:pointer;padding:4px}
+.filters{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.filters .dup{grid-column:1/-1;display:flex;align-items:center;gap:6px;font-size:.88rem;color:var(--mu);cursor:pointer}
+.filters .dup input{accent-color:var(--ac);margin:0}
+ul{list-style:none;margin:0;padding:0;background:var(--sf);border:1px solid var(--ln);border-radius:12px}
+li{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--ln)}
+li:last-child{border-bottom:0}
+li .n{color:var(--mu);min-width:2.2em;font-size:.85rem}
+li .t{flex:1;min-width:0;overflow-wrap:anywhere}
+li .t small{display:block;color:var(--mu);font-size:.8rem}
+li button{background:none;border:0;color:var(--dg);font:inherit;font-size:.82rem;cursor:pointer;padding:6px}
+.cnt{display:inline-block;font-size:.72rem;font-weight:600;background:var(--ac);color:var(--ai);border-radius:999px;padding:0 8px;margin-inline-start:8px;line-height:1.7}
+.empty{padding:22px;text-align:center;color:var(--mu)}
+.note{font-size:.78rem;color:var(--mu);margin:8px 0}
+.two,.wg{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.wg label{font-size:.8rem;color:var(--mu)}
+.wg input{padding:8px 10px}
+summary{cursor:pointer;margin-top:12px;color:var(--ac);font-size:.9rem}
+.toast{position:fixed;inset-inline:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));margin:auto;width:max-content;max-width:90%;background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+main{position:relative}
+.top{justify-content:flex-start;gap:10px}
+.mext{margin-inline-start:auto;font-size:.8rem;color:var(--mu)}
+.menu{position:absolute;top:60px;inset-inline-start:14px;z-index:15;min-width:230px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;padding:6px;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+.menu button,.menu a{display:block;width:100%;text-align:start;font:inherit;padding:10px 12px;background:none;border:0;border-radius:8px;color:var(--ink);cursor:pointer;text-decoration:none}
+.menu button:hover,.menu a:hover{background:var(--bg)}
+.bar{height:10px;border-radius:99px;background:var(--bg);overflow:hidden;margin:8px 0}
+.bar i{display:block;height:100%;width:0;background:var(--ac);transition:width .3s}
+.wg3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.cols{display:flex;gap:4px;align-items:flex-end;height:170px;overflow-x:auto}
+.cols.sm{height:76px}
+.col{flex:1;min-width:20px;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;font-size:.68rem;color:var(--mu);gap:2px}
+.col i{display:block;width:100%;background:var(--ac);opacity:.45;border-radius:4px 4px 0 0}
+.col.ok i,.col.cur i{opacity:1}
+.col.cur span{color:var(--ink);font-weight:700}
+.col em{font-style:normal;color:var(--ink)}
+#dash{position:fixed;inset:0;z-index:30;background:var(--bg);overflow:auto;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+.dwrap{max-width:880px;margin:0 auto;padding:14px}
+.dtop{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.dtop h2{margin:0;flex:1;min-width:120px}
+.seg button{font:inherit;font-size:.82rem;padding:4px 14px;background:none;border:0;color:var(--ink);cursor:pointer}
+.seg button.on{background:var(--ac);color:var(--ai)}
+.dc{background:var(--sf);border:1px solid var(--ln);border-radius:14px;padding:14px;margin-bottom:12px}
+.dc h3{font-size:.95rem;margin:0 0 10px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:8px}
+.kpi{background:var(--bg);border-radius:10px;padding:8px 10px}
+.kpi b{display:block;font-size:1.3rem}
+.kpi span{font-size:.75rem;color:var(--mu)}
+.hb{display:grid;grid-template-columns:110px 1fr auto;gap:8px;align-items:center;font-size:.85rem;margin:6px 0}
+.trk{height:12px;background:var(--bg);border-radius:99px;overflow:hidden}
+.trk i{display:block;height:100%;background:var(--ac)}
+.pdf{--bg:#eef2f5;--sf:#fff;--ink:#14232e;--mu:#5d7080;--ln:#d5dee5;--ac:#1f6f5c;--ai:#fff}
+.brand{display:flex;align-items:center;gap:10px}
+.brand h1{font-size:1.2rem;line-height:1.2}
+.brand small{display:block;color:var(--mu);font-size:.72rem}
+.upl{display:block;text-align:center;margin-top:8px;cursor:pointer}
+.redo{font-size:.82rem;color:var(--ac);text-decoration:none;padding:6px;white-space:nowrap}
+li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:var(--mu);padding:6px 14px}
+</style>
+</head>
+<body>
+<main>
+  <div class="top"><button class="ico" id="menu" type="button" aria-label="منو" aria-expanded="false">☰</button><div class="brand"><svg viewBox="0 0 40 40" width="40" height="40" aria-hidden="true"><rect width="40" height="40" rx="11" style="fill:var(--ac)"/><circle cx="20" cy="20" r="11" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/><path d="M20 9a11 11 0 0 1 10.5 7.7" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M15 20.5l3.6 3.6L25.5 17" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg><div><h1>سفارش‌یار</h1><small>ثبت سریع، شمارش دقیق</small></div></div><span class="mext" id="mext"></span></div>
+  <nav class="menu" id="menuPanel" hidden>
+    <button type="button" id="m-dash">داشبورد گزارش</button>
+    <button type="button" id="m-xl">خروجی اکسل</button>
+    <button type="button" id="m-imp">ورود اطلاعات از اکسل</button>
+    <button type="button" id="m-set">تنظیمات</button>
+  </nav>
+
+  <section class="card" id="settings" hidden>
+    <h2>تنظیمات</h2>
+    <label class="f" for="s-url">لینک فرم</label>
+    <input id="s-url" type="text" dir="ltr" autocomplete="off">
+    <label class="f" for="s-ext">داخلی پیش‌فرض</label>
+    <input id="s-ext" type="text" inputmode="numeric" autocomplete="off">
+    <label class="f" for="s-email">ایمیل شما (برای تیک خودکار «ثبت ایمیل» در فرم)</label>
+    <input id="s-email" type="text" dir="ltr" inputmode="email" autocomplete="off">
+    <div class="two">
+      <div><label class="f" for="s-target">هدف شیفت (امتیاز)</label><input id="s-target" type="number" min="1" step="any"></div>
+      <div><label class="f" for="s-start">شروع شیفت (ساعت)</label><input id="s-start" type="number" min="0" max="23"></div>
+    </div>
+    <div class="wg3">
+      <div><label class="f" for="s-hs">شروع کار (ساعت)</label><input id="s-hs" type="number" min="0" max="23"></div>
+      <div><label class="f" for="s-he">پایان کار (ساعت)</label><input id="s-he" type="number" min="1" max="24"></div>
+      <div><label class="f" for="s-ht">هدف هر ساعت (سفارش)</label><input id="s-ht" type="number" min="1" step="any"></div>
+    </div>
+    <label class="f">وزن هر تسک</label>
+    <div class="wg" id="sw"></div>
+    <details>
+      <summary>شناسهٔ فیلدهای فرم (برای فرم جدید)</summary>
+      <p class="note">فرم جدید معمولاً شناسهٔ فیلدهای متفاوتی دارد. صفحهٔ فرم جدید را باز کنید، Ctrl+U بزنید، همهٔ سورس را کپی کنید و اینجا بچسبانید.</p>
+      <textarea id="s-src" rows="3" dir="ltr" placeholder="سورس صفحهٔ فرم جدید"></textarea>
+      <div class="row"><button class="ghost" id="s-parse" type="button">استخراج شناسه‌ها و لینک</button></div>
+      <div class="wg" id="sid" style="margin-top:8px"></div>
+    </details>
+    <div class="row"><button class="ghost pri" id="s-save" type="button">ذخیره</button><button class="ghost" id="s-reset" type="button">پیش‌فرض</button><button class="ghost" id="s-close" type="button">بستن</button></div>
+  </section>
+
+  <section class="card" id="welcome" hidden>
+    <h2 style="margin-top:0">خوش آمدید</h2>
+    <p class="note" style="margin-top:0">برای شروع، داخلی خودتان را وارد کنید. همین داخلی در هر ثبت داخل فرم پر می‌شود و بعداً از ⚙ قابل تغییر است.</p>
+    <input id="w-email" type="text" dir="ltr" inputmode="email" autocomplete="off" placeholder="ایمیل شما (اختیاری، برای تیک خودکار فرم)" style="margin-bottom:8px">
+    <div class="row"><input id="w-ext" type="text" inputmode="numeric" autocomplete="off" placeholder="داخلی، مثلاً 4001"><button class="ghost pri" id="w-go" type="button" style="flex:none;padding:9px 20px">شروع</button></div>
+  </section>
+
+  <section class="hero">
+    <div class="ring" id="ring"><div><span class="pc" id="pct">۰٪</span></div></div>
+    <div class="hi"><div class="ht" id="ht">پیشرفت شیفت امروز</div><div class="pt" id="ptxt"></div></div>
+    <div class="tb" id="tb"></div>
+  </section>
+  <section class="card" id="hr">
+    <div class="lr"><div class="lab" id="hrt"></div><span class="pc" id="hrp"></span></div>
+    <div class="bar"><i id="hrb"></i></div>
+    <div class="pt" id="hrx"></div>
+    <div id="hrs" style="margin-top:12px"></div>
+  </section>
+  <div class="stats">
+    <div><b id="today">۰</b><span>امروز</span></div>
+    <div><b id="week">۰</b><span>این هفته</span></div>
+    <div><b id="month">۰</b><span>این ماه</span></div>
+    <div><b id="total">۰</b><span>کل</span></div>
+  </div>
+
+  <div class="card">
+    <div class="grp"><div class="lr"><div class="lab">تسک</div></div><div class="opts" id="tasks"></div></div>
+    <div class="grp"><div class="lr"><div class="lab">شماره سفارش</div>
+      <div class="seg">
+        <label><input type="radio" name="mode" value="single" checked>یک سفارش</label>
+        <label><input type="radio" name="mode" value="bulk">چند سفارش</label>
+      </div></div>
+    <div id="singleBox">
+      <input id="order" type="text" inputmode="text" autocomplete="off" placeholder="شماره سفارش">
+      <div class="qrow"><span id="dupHint"></span></div>
+    </div>
+    <div id="bulkBox" hidden>
+      <textarea id="bulk" rows="4" dir="ltr" autocomplete="off" placeholder="هر خط یک شماره، یا با فاصله و ویرگول"></textarea>
+      <label class="ghost upl">آپلود فایل شماره سفارش‌ها (Excel / CSV / TXT)<input type="file" id="bf" accept=".xlsx,.xls,.csv,.txt" hidden></label>
+      <div class="qrow"><span id="qinfo"></span><button type="button" class="link" id="qreset">از اول</button></div>
+    </div>
+    </div>
+    <div class="grp"><div class="lr"><div class="lab">علت تماس</div></div><div class="opts" id="reasons"></div></div>
+    <div class="grp"><div class="lr"><div class="lab">نوع تماس</div></div><div class="opts" id="calls"></div></div>
+    <a class="go" id="go" href="#" target="fc_form">ثبت و باز کردن فرم</a>
+    <p class="cap">کلید Enter هم همین کار را می‌کند</p>
+    <div class="row"><button class="ghost" id="copy" type="button">کپی لینک فرم</button></div>
+  </div>
+
+  <h2><span>سابقه ثبت‌ها</span><span><button class="link" id="xl" type="button">خروجی اکسل</button><button class="link" id="copyList" type="button">کپی لیست</button><button class="link" id="clear" type="button">پاک کردن</button></span></h2>
+  <div class="filters">
+    <input id="q" type="search" inputmode="search" placeholder="جستجوی شماره سفارش" autocomplete="off">
+    <select id="ft"></select>
+    <select id="fday"></select>
+    <label class="dup"><input type="checkbox" id="fdup">فقط سفارش‌های تکراری</label>
+  </div>
+  <ul id="list"></ul>
+  <p class="note">بعد از باز شدن فرم، فقط Submit را بزنید. اگر فرم را بدون Submit بستید، همان مورد را حذف کنید. اطلاعات فقط در همین مرورگر ذخیره می‌شود. کلید Enter در کادر شماره سفارش، دکمهٔ ثبت را می‌زند.</p>
+</main>
+<input type="file" id="imp" accept=".xlsx,.xls,.csv" hidden>
+<div id="dash" hidden>
+  <div class="dwrap">
+    <div class="dtop">
+      <h2>داشبورد گزارش</h2>
+      <div class="seg" id="dper"><button type="button" data-p="today">امروز</button><button type="button" data-p="week">هفته</button><button type="button" data-p="month">ماه</button><button type="button" data-p="all">همه</button><button type="button" data-p="day">روز</button></div>
+      <select id="dday" hidden style="width:auto;flex:none"></select>
+      <button class="ghost pri" id="d-pdf" type="button" style="flex:none;padding:8px 14px">خروجی PDF</button>
+      <button class="ghost" id="d-close" type="button" style="flex:none;padding:8px 14px">بستن</button>
+    </div>
+    <div id="dbody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+(function(){
+  var KEY="form-counter-v1",CFG="fc-cfg",SEL="fc-sel",SEP=/[\s,،;؛]+/;
+  var TASKS=["صدور","وضعیت سلر","حوادث ترافیکی","وضعیت ارجاع","وضعیت اپراتور","گروه هماهنگی"];
+  var REASONS=["درخواست کد پستی","درخواست مدرک","درخواست پرداخت","سایر"];
+  var CALLS=["ورودی","خروجی","بدون تماس"];
+  var IDN={ext:"داخلی کارشناس",task:"تسک",order:"شماره سفارش",reason:"علت تماس",call:"نوع تماس"};
+  var DEF={url:"https://docs.google.com/forms/d/e/1FAIpQLSepYw7O3OVHvaVQeWMstGsThpryIVlDEYAgJ-JcKnP9aWGYbw/viewform",ext:"",email:"",v:3,target:125,start:0,hs:16,he:24,ht:18,
+    w:{"صدور":1,"وضعیت سلر":1,"حوادث ترافیکی":1,"وضعیت ارجاع":1.5,"وضعیت اپراتور":1,"گروه هماهنگی":1.5},
+    ids:{ext:"1945555403",task:"733295076",order:"952731446",reason:"847875244",call:"119166286"}};
+  var cfg=JSON.parse(JSON.stringify(DEF)),items=[],mode="single",queue=[],pos=0;
+  var $=function(id){return document.getElementById(id)};
+  var nf=new Intl.NumberFormat("fa-IR");
+  var pd=new Intl.DateTimeFormat("en-u-ca-persian-nu-latn",{year:"numeric",month:"numeric",day:"numeric"});
+  var fd=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{weekday:"long",day:"numeric",month:"long",year:"numeric"});
+  var ft=new Intl.DateTimeFormat("fa-IR",{hour:"2-digit",minute:"2-digit"});
+  var pad=function(n){return String(n).padStart(2,"0")};
+
+  function toast(m){var t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove("show")},2200)}
+  function parts(ts){var o={};pd.formatToParts(new Date(ts)).forEach(function(p){o[p.type]=p.value});return o}
+  function dayKey(ts){var p=parts(ts);return p.year+"-"+p.month+"-"+p.day}
+  function monthKey(ts){var p=parts(ts);return p.year+"-"+p.month}
+  function shiftKey(ts){return dayKey(ts-cfg.start*36e5)}
+  function weekStart(ts){var d=new Date(ts);d.setHours(0,0,0,0);d.setDate(d.getDate()-((d.getDay()+1)%7));return d.getTime()}
+  function weightOf(it){var w=it.k?cfg.w[it.k]:1;return w==null||isNaN(w)?1:+w}
+  function countMap(){var c={};items.forEach(function(i){var k=(i.r||"").trim();if(k)c[k]=(c[k]||0)+1});return c}
+
+  function load(){
+    try{var r=localStorage.getItem(KEY);items=r?JSON.parse(r):[];if(!Array.isArray(items))items=[]}catch(e){items=[]}
+    try{var s=JSON.parse(localStorage.getItem(CFG)||"null");if(s){
+      if(s.url)cfg.url=s.url;if(s.ext)cfg.ext=s.ext;if(s.email)cfg.email=s.email;if(s.start>=0&&s.start<24)cfg.start=+s.start;
+      if(s.v===3){if(s.target>0)cfg.target=+s.target;Object.assign(cfg.w,s.w||{})}
+      Object.assign(cfg.ids,s.ids||{});if(s.ht>0)cfg.ht=+s.ht;if(s.hs>=0)cfg.hs=+s.hs;if(s.he>0)cfg.he=+s.he}}catch(e){}
+  }
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){toast("ذخیره‌سازی در این مرورگر کار نمی‌کند")}}
+  function saveCfg(){try{localStorage.setItem(CFG,JSON.stringify(cfg))}catch(e){}}
+  function saveSel(){var v=vals();try{localStorage.setItem(SEL,JSON.stringify({task:v.task,reasons:v.reasons,call:v.call}))}catch(e){}}
+
+  function chips(id,name,type,list){
+    var b=$(id);
+    list.forEach(function(v){var l=document.createElement("label"),i=document.createElement("input");i.type=type;i.name=name;i.value=v;l.appendChild(i);l.appendChild(document.createTextNode(v));b.appendChild(l)});
+  }
+  function restoreSel(){
+    try{var s=JSON.parse(localStorage.getItem(SEL)||"null");if(!s)return;
+      document.querySelectorAll('input[name="task"]').forEach(function(i){i.checked=i.value===s.task});
+      document.querySelectorAll('input[name="call"]').forEach(function(i){i.checked=i.value===s.call});
+      document.querySelectorAll('input[name="reason"]').forEach(function(i){i.checked=(s.reasons||[]).indexOf(i.value)>=0});
+    }catch(e){}
+  }
+  function vals(){
+    var c=document.querySelector('input[name="call"]:checked'),t=document.querySelector('input[name="task"]:checked');
+    return {task:t?t.value:"",order:mode==="bulk"?(queue[pos]||""):$("order").value.trim(),
+      reasons:[].slice.call(document.querySelectorAll('input[name="reason"]:checked')).map(function(i){return i.value}),call:c?c.value:""};
+  }
+  function missing(v){
+    if(!cfg.ext)return"داخلی (در تنظیمات)";
+    if(!v.task)return"تسک";
+    if(!v.order)return"شماره سفارش";
+    if(!v.reasons.length)return"علت تماس";
+    if(!v.call)return"نوع تماس";
+    return"";
+  }
+  function url(v){
+    var q=["usp=pp_url"],I=cfg.ids;
+    function add(k,x){q.push("entry."+I[k]+"="+encodeURIComponent(x))}
+    add("ext",v.ext||cfg.ext);if(v.task)add("task",v.task);add("order",v.order);
+    (v.reasons||[]).forEach(function(r){add("reason",r)});if(v.call)add("call",v.call);
+    if(cfg.email)q.push("emailAddress="+encodeURIComponent(cfg.email));
+    return cfg.url+"?"+q.join("&");
+  }
+
+  function qui(){
+    var go=$("go"),info=$("qinfo"),base="ثبت و باز کردن فرم";
+    if(mode!=="bulk"){go.textContent=base;return}
+    if(!queue.length){info.textContent="شماره سفارش‌ها را در کادر بنویسید";go.textContent=base;return}
+    if(pos>=queue.length){info.textContent="همهٔ "+nf.format(queue.length)+" سفارش انجام شد";go.textContent="همهٔ سفارش‌ها ثبت شد ✓";return}
+    info.textContent="سفارش بعدی: "+queue[pos]+" ("+nf.format(pos+1)+" از "+nf.format(queue.length)+")";
+    go.textContent="ثبت سفارش "+queue[pos];
+  }
+  function setMode(m){mode=m;$("singleBox").hidden=m!=="single";$("bulkBox").hidden=m!=="bulk";qui()}
+  function parseBulk(){queue=$("bulk").value.split(SEP).filter(Boolean);pos=0;qui()}
+
+  var hrPct="",curP="today",curDay="",PER={today:"امروز",week:"این هفته",month:"این ماه",all:"همهٔ ثبت‌ها"};
+  var dayFmt=new Intl.DateTimeFormat("fa-IR-u-ca-persian",{day:"numeric",month:"short"});
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+  function hb(rows,max){return rows.map(function(r){return '<div class="hb"><span>'+esc(r[0])+'</span><div class="trk"><i style="width:'+(max?Math.min(100,r[1]/max*100):0)+'%"></i></div><b>'+nf.format(+r[1].toFixed(1))+(r[2]||"")+'</b></div>'}).join("")}
+  function cl(rows,max,sm){return '<div class="cols'+(sm?" sm":"")+'">'+rows.map(function(r){return '<div class="col'+(r[3]?" ok":"")+(r[4]?" cur":"")+'"><em>'+r[2]+'</em><i style="height:'+Math.max(2,max?r[1]/max*(sm?44:120):0)+'px"></i><span>'+r[0]+'</span></div>'}).join("")+'</div>'}
+  function saveFile(blob,fn,ok){
+    var u=window.claude&&claude.use?claude.use("downloads"):Promise.resolve(null);
+    u.then(function(d){if(!d){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=fn;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1500);toast(ok);return}
+      return d.save({filename:fn,data:blob}).then(function(){toast(ok)},function(e){if(!e||e.code!=="declined")toast("ذخیره نشد")})},function(){toast("ذخیرهٔ فایل در این نمایش ممکن نیست")});
+  }
+  function en(s){return String(s==null?"":s).replace(/[۰-۹]/g,function(c){return c.charCodeAt(0)-1776}).replace(/[٠-٩]/g,function(c){return c.charCodeAt(0)-1632})}
+  function importXlsx(f){
+    if(!f)return;
+    if(!window.XLSX){toast("کتابخانهٔ اکسل بارگذاری نشد");return}
+    var rd=new FileReader();
+    rd.onload=function(){try{
+      var wb=XLSX.read(rd.result,{type:"array"}),ws=wb.Sheets[wb.SheetNames[0]];
+      var rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,blankrows:false});
+      if(rows.length<2){toast("فایل خالی است");return}
+      var H={};rows[0].forEach(function(c,i){H[String(c).trim()]=i});
+      var ci=function(n){return H[n]};
+      if(ci("شماره سفارش")==null||ci("تاریخ میلادی")==null){toast("فرمت فایل با خروجی اکسل برنامه نمی‌خواند");return}
+      var gv=function(r,n){return ci(n)==null||r[ci(n)]==null?"":String(r[ci(n)]).trim()};
+      var seen={};items.forEach(function(i){seen[(i.r||"")+"|"+(i.k||"")+"|"+Math.floor(i.t/6e4)]=1});
+      var add=0,skip=0;
+      rows.slice(1).forEach(function(r){
+        var o=gv(r,"شماره سفارش");if(!o)return;
+        var d=r[ci("تاریخ میلادی")],tm=ci("ساعت")!=null?r[ci("ساعت")]:"",y,m,dd,hh=0,mm=0;
+        if(typeof d==="number"){var p=XLSX.SSF.parse_date_code(d);y=p.y;m=p.m;dd=p.d}
+        else{var a=en(d).match(/(\d{4})\D(\d{1,2})\D(\d{1,2})/);if(!a)return;y=+a[1];m=+a[2];dd=+a[3]}
+        if(typeof tm==="number"){var q=XLSX.SSF.parse_date_code(tm%1);hh=q.H;mm=q.M}
+        else{var b=en(tm).match(/(\d{1,2}):(\d{2})/);if(b){hh=+b[1];mm=+b[2]}}
+        var t=new Date(y,m-1,dd,hh,mm).getTime();if(isNaN(t))return;
+        var k=gv(r,"تسک"),key=o+"|"+k+"|"+Math.floor(t/6e4);
+        if(seen[key]){skip++;return}
+        seen[key]=1;
+        items.push({id:t+"-"+Math.random().toString(36).slice(2,6),t:t,r:o,k:k,c:gv(r,"نوع تماس"),e:gv(r,"داخلی"),s:gv(r,"علت تماس").split(/[،,]\s*/).map(function(x){return x.trim()}).filter(Boolean)});
+        add++;
+      });
+      items.sort(function(a,b){return a.t-b.t});save();render();
+      toast(nf.format(add)+" ثبت اضافه شد"+(skip?"، "+nf.format(skip)+" مورد تکراری رد شد":""));
+    }catch(e){toast("خواندن فایل ناموفق بود")}};
+    rd.readAsArrayBuffer(f);
+  }
+  function readFile(f){
+    if(!f)return;
+    var rd=new FileReader();
+    function done(arr){
+      arr=arr.map(function(x){return String(x).trim()}).filter(Boolean);
+      if(!arr.length){toast("شماره‌ای در فایل پیدا نشد");return}
+      $("bulk").value=arr.join("\n");parseBulk();toast(nf.format(arr.length)+" سفارش از فایل خوانده شد");
+    }
+    if(/\.txt$/i.test(f.name)){rd.onload=function(){done(String(rd.result).split(SEP))};rd.readAsText(f);return}
+    if(!window.XLSX){toast("کتابخانهٔ اکسل بارگذاری نشد");return}
+    rd.onload=function(){try{
+      var wb=XLSX.read(rd.result,{type:"array"}),ws=wb.Sheets[wb.SheetNames[0]];
+      var rows=XLSX.utils.sheet_to_json(ws,{header:1,raw:true,blankrows:false}),col=0,st=0;
+      var hi=rows[0]?rows[0].findIndex(function(c){return /سفارش|order/i.test(String(c))}):-1;
+      if(hi>=0){col=hi;st=1}
+      done(rows.slice(st).map(function(r){return r[col]==null?"":r[col]}));
+    }catch(e){toast("خواندن فایل ناموفق بود")}};
+    rd.readAsArrayBuffer(f);
+  }
+  function dash(p){
+    curP=p;
+    var ad=[],sd={};items.forEach(function(i){var k=shiftKey(i.t);if(!sd[k]){sd[k]={k:k,t:i.t,n:0};ad.push(sd[k])}sd[k].n++});
+    ad.reverse();
+    var dsel=$("dday");dsel.innerHTML="";
+    ad.forEach(function(d){var o=document.createElement("option");o.value=d.k;o.textContent=fd.format(new Date(d.t))+" ("+nf.format(d.n)+")";dsel.appendChild(o)});
+    if(p==="day"){if(!sd[curDay])curDay=ad.length?ad[0].k:"";dsel.value=curDay;PER.day=sd[curDay]?fd.format(new Date(sd[curDay].t)):"روز"}
+    dsel.hidden=p!=="day";
+    document.querySelectorAll("#dper button").forEach(function(b){b.classList.toggle("on",b.dataset.p===p)});
+    var now=Date.now(),sk=shiftKey(now),mk=monthKey(now),ws=weekStart(now);
+    var its=items.filter(function(i){return p==="day"?shiftKey(i.t)===curDay:p==="today"?shiftKey(i.t)===sk:p==="week"?i.t>=ws:p==="month"?monthKey(i.t)===mk:true});
+    var dm={},dl=[],pts=0,tk={},tp={},rs={},cc={},oc={},hh={};
+    its.forEach(function(i){var k=shiftKey(i.t),w=weightOf(i);if(!dm[k]){dm[k]={t:i.t,pts:0};dl.push(dm[k])}dm[k].pts+=w;pts+=w;
+      if(i.k){tk[i.k]=(tk[i.k]||0)+1;tp[i.k]=(tp[i.k]||0)+w}
+      (i.s||[]).forEach(function(r){rs[r]=(rs[r]||0)+1});
+      if(i.c)cc[i.c]=(cc[i.c]||0)+1;
+      var o=(i.r||"").trim();if(o)oc[o]=(oc[o]||0)+1;
+      var h=new Date(i.t).getHours();hh[h]=(hh[h]||0)+1});
+    var nd=dl.length||1,avg=dl.reduce(function(a,d){return a+d.pts/cfg.target*100},0)/nd;
+    var best=dl.reduce(function(b,d){return !b||d.pts>b.pts?d:b},null);
+    var rep=Object.keys(oc).filter(function(k){return oc[k]>1}).sort(function(a,b){return oc[b]-oc[a]});
+    var calls=(cc["ورودی"]||0)+(cc["خروجی"]||0);
+    function K(v,l){return '<div class="kpi"><b>'+v+'</b><span>'+l+'</span></div>'}
+    var h='<section class="dc"><h3>گزارش عملکرد - '+PER[p]+'</h3><div class="pt">تاریخ تهیه: '+fd.format(new Date())+' | داخلی '+esc(cfg.ext)+'</div></section>';
+    h+='<section class="dc"><div class="kpis">'+K(nf.format(its.length),"سفارش ثبت‌شده")+K(nf.format(+pts.toFixed(1)),"معادل اپراتور")+K(nf.format(Math.round(avg))+"٪","میانگین درصد روزانه")
+      +K(best?nf.format(Math.round(best.pts/cfg.target*100))+"٪ ("+dayFmt.format(new Date(best.t))+")":"-","بهترین روز")+K(nf.format(dl.length),"روز فعال")
+      +K(nf.format(Object.keys(oc).length),"سفارش یکتا")+K(nf.format(rep.length),"سفارش تکراری")+K(nf.format(calls),"کل تماس‌ها")
+      +K(nf.format(cc["ورودی"]||0),"تماس ورودی")+K(nf.format(cc["خروجی"]||0),"تماس خروجی")+K(nf.format(cc["بدون تماس"]||0),"بدون تماس")+'</div></section>';
+    if(p!=="today"&&p!=="day"){
+      var rows=dl.slice(-31),mx=Math.max(100,Math.max.apply(null,rows.map(function(d){return d.pts/cfg.target*100})));
+      h+='<section class="dc"><h3>درصد پیشرفت روزانه (ستون پررنگ: رسیدن به ۱۰۰٪)</h3>'+cl(rows.map(function(d){var pc=d.pts/cfg.target*100;return[dayFmt.format(new Date(d.t)),pc,nf.format(Math.round(pc)),pc>=100]}),mx)+'</section>';
+    }
+    var hr=[],hmx=cfg.ht;
+    for(var x=cfg.hs;x<cfg.he;x++){var v=(hh[x]||0)/nd;hr.push([nf.format(x),v,nf.format(+v.toFixed(1)),v>=cfg.ht]);hmx=Math.max(hmx,v)}
+    h+='<section class="dc"><h3>'+((p==="today"||p==="day")?"سفارش هر ساعت":"میانگین سفارش هر ساعت")+' (هدف: '+nf.format(cfg.ht)+' در ساعت)</h3>'+cl(hr,hmx)+'</section>';
+    h+='<section class="dc"><h3>تفکیک تسک (تعداد و معادل اپراتور)</h3>'+hb(TASKS.filter(function(t){return tk[t]}).map(function(t){return[t,tk[t]," ("+nf.format(+tp[t].toFixed(1))+")"]}),Math.max.apply(null,TASKS.map(function(t){return tk[t]||0}))||1)+'</section>';
+    h+='<section class="dc"><h3>نوع و علت تماس</h3>'+hb(CALLS.map(function(c){return[c,cc[c]||0]}),Math.max.apply(null,CALLS.map(function(c){return cc[c]||0}))||1)+'<div style="height:10px"></div>'+hb(REASONS.map(function(r){return[r,rs[r]||0]}),Math.max.apply(null,REASONS.map(function(r){return rs[r]||0}))||1)+'</section>';
+    h+='<section class="dc"><h3>سفارش‌های تکراری ('+nf.format(rep.length)+')</h3>'+(rep.length?'<div class="tb">'+rep.slice(0,12).map(function(k){return'<span class="pill">'+esc(k)+' ×'+nf.format(oc[k])+'</span>'}).join("")+'</div>':'<div class="pt">موردی نیست</div>')+'</section>';
+    $("dbody").innerHTML=h;
+  }
+  function dashPdf(){
+    if(!window.html2canvas||!window.jspdf){toast("کتابخانهٔ PDF بارگذاری نشد");return}
+    var el=$("dbody");el.classList.add("pdf");toast("در حال ساخت PDF ...");
+    var pdf=new jspdf.jsPDF("p","mm","a4"),y=10,iw=190,chain=Promise.resolve();
+    [].slice.call(el.children).forEach(function(b){chain=chain.then(function(){return html2canvas(b,{scale:2,backgroundColor:"#ffffff"}).then(function(cv){
+      var ph=cv.height*iw/cv.width;if(y+ph>287&&y>10){pdf.addPage();y=10}
+      pdf.addImage(cv.toDataURL("image/jpeg",.92),"JPEG",10,y,iw,ph);y+=ph+4})})});
+    chain.then(function(){el.classList.remove("pdf");var n=new Date();saveFile(pdf.output("blob"),"report-"+curP+"-"+n.getFullYear()+pad(n.getMonth()+1)+pad(n.getDate())+".pdf","فایل PDF آماده شد")},function(){el.classList.remove("pdf");toast("ساخت PDF ناموفق بود")});
+  }
+  function render(){
+    var now=Date.now(),sk=shiftKey(now),mk=monthKey(now),ws=weekStart(now);
+    var todays=items.filter(function(i){return shiftKey(i.t)===sk});
+    var pts=todays.reduce(function(a,i){return a+weightOf(i)},0),pct=cfg.target>0?pts/cfg.target*100:0;
+    $("pct").textContent=nf.format(Math.round(pct))+"٪";
+    $("ring").style.setProperty("--p",Math.min(100,pct));
+    document.querySelector(".hero").classList.toggle("done",pct>=100);
+    $("ht").textContent=pct>=100?"آفرین! شیفت امروز به ۱۰۰٪ رسید":"پیشرفت شیفت امروز";
+    $("ptxt").textContent=nf.format(+pts.toFixed(1))+" از "+nf.format(cfg.target)+" معادل اپراتور"+(pct<100?"، "+nf.format(+(cfg.target-pts).toFixed(1))+" مانده":"")+" | "+nf.format(todays.length)+" ثبت";
+    var tc={};todays.forEach(function(i){if(i.k)tc[i.k]=(tc[i.k]||0)+1});
+    var tb=$("tb");tb.innerHTML="";
+    TASKS.forEach(function(t){if(!tc[t])return;var b=document.createElement("button");b.type="button";b.className="pill";b.textContent=t+" "+nf.format(tc[t]);
+      b.addEventListener("click",function(){$("ft").value=$("ft").value===t?"":t;render()});tb.appendChild(b)});
+    $("today").textContent=nf.format(todays.length);
+    $("week").textContent=nf.format(items.filter(function(i){return i.t>=ws}).length);
+    $("month").textContent=nf.format(items.filter(function(i){return monthKey(i.t)===mk}).length);
+    $("total").textContent=nf.format(items.length);
+    $("mext").textContent=cfg.ext?"داخلی "+cfg.ext:"";
+    var hc={};todays.forEach(function(i){var q=new Date(i.t).getHours();hc[q]=(hc[q]||0)+1});
+    var ch=new Date().getHours(),rowsH=[];
+    for(var q=cfg.hs;q<cfg.he;q++){var c=hc[q]||0;rowsH.push([nf.format(q),Math.min(c,cfg.ht),nf.format(c),c>=cfg.ht,q===ch])}
+    $("hrs").innerHTML=cl(rowsH,cfg.ht,true);
+    if(ch>=cfg.hs&&ch<cfg.he){
+      var hn=hc[ch]||0,pp=hn/cfg.ht*100;hrPct=nf.format(Math.round(pp))+"٪";
+      $("hrt").textContent="پیشرفت ساعت "+nf.format(ch)+" تا "+nf.format(ch+1);$("hrp").textContent=hrPct;$("hrb").style.width=Math.min(100,pp)+"%";
+      $("hrx").textContent=nf.format(hn)+" از "+nf.format(cfg.ht)+" سفارش"+(hn<cfg.ht?"، "+nf.format(+(cfg.ht-hn).toFixed(1))+" مانده":"، هدف این ساعت کامل شد");
+    }else{
+      hrPct="-";$("hrt").textContent="خارج از ساعت کاری ("+nf.format(cfg.hs)+" تا "+nf.format(cfg.he)+")";$("hrp").textContent="";$("hrb").style.width="0";$("hrx").textContent="ساعت‌های کاری امروز در نمودار زیر";
+    }
+
+    var ul=$("list");ul.innerHTML="";
+    if(!items.length){var e=document.createElement("li");e.className="empty";e.textContent="هنوز ثبتی نداریم.";ul.appendChild(e);return}
+    var fs=$("fday"),pv=fs.value,dsn={},dso=[];
+    items.forEach(function(x){var k=shiftKey(x.t);if(!dsn[k]){dsn[k]={k:k,t:x.t,n:0};dso.push(dsn[k])}dsn[k].n++});
+    fs.innerHTML="";var o0=document.createElement("option");o0.value="";o0.textContent="همهٔ روزها";fs.appendChild(o0);
+    dso.reverse().forEach(function(d){var o=document.createElement("option");o.value=d.k;o.textContent=fd.format(new Date(d.t))+" ("+nf.format(d.n)+")";fs.appendChild(o)});
+    fs.value=dsn[pv]?pv:"";
+    var counts=countMap(),qv=$("q").value.trim().toLowerCase(),fv=$("ft").value,dv=$("fdup").checked,dayv=fs.value;
+    var rows=items.map(function(x,i){return{it:x,num:i+1}}).reverse().filter(function(o){
+      var r=(o.it.r||"").trim();
+      if(qv&&r.toLowerCase().indexOf(qv)<0)return false;
+      if(fv&&o.it.k!==fv)return false;
+      if(dayv&&shiftKey(o.it.t)!==dayv)return false;
+      if(dv&&!(r&&counts[r]>1))return false;
+      return true});
+    if(!rows.length){var e2=document.createElement("li");e2.className="empty";e2.textContent="موردی پیدا نشد";ul.appendChild(e2);return}
+    var lastD="",dcn={};rows.forEach(function(o){var k=shiftKey(o.it.t);dcn[k]=(dcn[k]||0)+1});
+    rows.forEach(function(o){
+      var dk=shiftKey(o.it.t);
+      if(dk!==lastD){lastD=dk;var hd=document.createElement("li");hd.className="dh";hd.textContent=fd.format(new Date(o.it.t))+" ("+nf.format(dcn[dk])+" ثبت)";ul.appendChild(hd)}
+      var it=o.it,li=document.createElement("li");
+      var n=document.createElement("span");n.className="n";n.textContent=nf.format(o.num);
+      var t=document.createElement("span");t.className="t";
+      t.textContent=(it.r||"بدون شماره")+(it.k?" - "+it.k:"");
+      var cn=it.r?counts[it.r.trim()]:0;
+      if(cn>1){var bd=document.createElement("span");bd.className="cnt";bd.textContent="×"+nf.format(cn);t.appendChild(bd)}
+      var s=document.createElement("small");
+      s.textContent=[it.c,(it.s||[]).join("، "),fd.format(new Date(it.t))+"، "+ft.format(new Date(it.t))].filter(Boolean).join(" | ");
+      t.appendChild(s);
+      var a=document.createElement("a");a.className="redo";a.textContent="ثبت مجدد";a.target="fc_form";
+      a.href=it.r?url({ext:it.e,task:it.k,order:it.r,reasons:it.s,call:it.c}):"#";
+      a.addEventListener("click",function(){toast("فرم باز شد | در شمارنده دوباره حساب نشد")});
+      var b=document.createElement("button");b.type="button";b.textContent="حذف";
+      b.addEventListener("click",function(){items=items.filter(function(x){return x.id!==it.id});save();render();toast("حذف شد")});
+      li.appendChild(n);li.appendChild(t);if(it.r)li.appendChild(a);li.appendChild(b);ul.appendChild(li);
+    });
+  }
+
+  function exportXlsx(){
+    if(!items.length){toast("لیست خالی است");return}
+    if(!window.XLSX){toast("کتابخانهٔ اکسل بارگذاری نشد");return}
+    var counts=countMap();
+    var rows=[["ردیف","تاریخ شمسی","تاریخ میلادی","ساعت","داخلی","تسک","شماره سفارش","علت تماس","نوع تماس","امتیاز","تعداد تکرار سفارش"]];
+    items.forEach(function(it,i){
+      var p=parts(it.t),d=new Date(it.t);
+      rows.push([i+1,p.year+"/"+pad(p.month)+"/"+pad(p.day),d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate()),pad(d.getHours())+":"+pad(d.getMinutes()),
+        it.e||"",it.k||"",it.r||"",(it.s||[]).join("، "),it.c||"",weightOf(it),it.r?counts[it.r.trim()]:""]);
+    });
+    var ws=XLSX.utils.aoa_to_sheet(rows);
+    ws["!cols"]=[{wch:6},{wch:12},{wch:12},{wch:8},{wch:8},{wch:16},{wch:18},{wch:26},{wch:12},{wch:8},{wch:12}];
+    var wb=XLSX.utils.book_new();wb.Workbook={Views:[{RTL:true}]};
+    XLSX.utils.book_append_sheet(wb,ws,"ثبت‌ها");
+    var out=XLSX.write(wb,{bookType:"xlsx",type:"array"});
+    var n=new Date(),fn="orders-"+n.getFullYear()+pad(n.getMonth()+1)+pad(n.getDate())+".xlsx";
+    saveFile(new Blob([out],{type:"application/octet-stream"}),fn,"فایل اکسل آماده شد");
+  }
+
+  function parseSrc(s){
+    var i=s.indexOf("FB_PUBLIC_LOAD_DATA_");if(i<0)return null;
+    i=s.indexOf("[",i);if(i<0)return null;
+    var d=0,inS=false,esc=false,j=i;
+    for(;j<s.length;j++){var c=s[j];
+      if(inS){if(esc)esc=false;else if(c==="\\")esc=true;else if(c==='"')inS=false;continue}
+      if(c==='"')inS=true;else if(c==="[")d++;else if(c==="]"){d--;if(!d)break}}
+    var data;try{data=JSON.parse(s.slice(i,j+1))}catch(e){return null}
+    var qs=data[1]&&data[1][1];if(!qs)return null;
+    var byT={},list=[];
+    qs.forEach(function(q){if(q&&q[4]&&q[4][0]){byT[q[1]]=q[4][0][0];list.push(q[4][0][0])}});
+    var out={},keys=["ext","task","order","reason","call"];
+    keys.forEach(function(k,x){var v=byT[IDN[k]]||list[x];if(v)out[k]=String(v)});
+    return out;
+  }
+
+  function openSettings(){
+    $("s-url").value=cfg.url;$("s-ext").value=cfg.ext;$("s-target").value=cfg.target;$("s-start").value=cfg.start;$("s-hs").value=cfg.hs;$("s-he").value=cfg.he;$("s-ht").value=cfg.ht;$("s-email").value=cfg.email||"";
+    TASKS.forEach(function(t,i){$("w-"+i).value=cfg.w[t]});
+    Object.keys(IDN).forEach(function(k){$("id-"+k).value=cfg.ids[k]});
+    $("settings").hidden=false;$("settings").scrollIntoView({block:"start"});
+  }
+  function buildSettings(){
+    var sw=$("sw");TASKS.forEach(function(t,i){
+      var d=document.createElement("div"),l=document.createElement("label"),n=document.createElement("input");
+      l.htmlFor="w-"+i;l.textContent=t;n.type="number";n.id="w-"+i;n.min="0";n.step="any";d.appendChild(l);d.appendChild(n);sw.appendChild(d)});
+    var si=$("sid");Object.keys(IDN).forEach(function(k){
+      var d=document.createElement("div"),l=document.createElement("label"),n=document.createElement("input");
+      l.htmlFor="id-"+k;l.textContent=IDN[k];n.type="text";n.id="id-"+k;n.dir="ltr";n.inputMode="numeric";d.appendChild(l);d.appendChild(n);si.appendChild(d)});
+  }
+  function saveSettings(){
+    var m=$("s-url").value.match(/https:\/\/docs\.google\.com\/forms\/d\/e\/[\w-]+\/viewform/);
+    if(!m){toast("لینک فرم معتبر نیست؛ باید به viewform ختم شود");return}
+    var tg=parseFloat($("s-target").value),st=parseInt($("s-start").value,10);
+    if(!(tg>0)){toast("هدف شیفت باید بیشتر از صفر باشد");return}
+    if(!(st>=0&&st<24))st=0;
+    var w={};for(var i=0;i<TASKS.length;i++){var x=parseFloat($("w-"+i).value);if(isNaN(x)||x<0){toast("وزن تسک‌ها معتبر نیست");return}w[TASKS[i]]=x}
+    var ids={};for(var k in IDN){var v=$("id-"+k).value.trim();if(!/^\d+$/.test(v)){toast("شناسهٔ «"+IDN[k]+"» باید عدد باشد");return}ids[k]=v}
+    var hs=parseInt($("s-hs").value,10),he=parseInt($("s-he").value,10),ht=parseFloat($("s-ht").value);
+    if(isNaN(hs)||isNaN(he)||hs<0||he>24||hs>=he||!(ht>0)){toast("ساعت کاری یا هدف ساعتی معتبر نیست");return}
+    var em=$("s-email").value.trim();if(em&&!/^\S+@\S+\.\S+$/.test(em)){toast("ایمیل معتبر نیست");return}
+    cfg.url=m[0];cfg.email=em;cfg.ext=$("s-ext").value.trim()||DEF.ext;cfg.target=tg;cfg.start=st;cfg.w=w;cfg.ids=ids;cfg.hs=hs;cfg.he=he;cfg.ht=ht;
+    saveCfg();$("settings").hidden=true;render();toast("تنظیمات ذخیره شد");
+  }
+
+  function menu(o){$("menuPanel").hidden=!o;$("menu").setAttribute("aria-expanded",o)}
+  $("menu").addEventListener("click",function(e){e.stopPropagation();menu($("menuPanel").hidden)});
+  document.addEventListener("click",function(){menu(false)});
+  $("m-set").addEventListener("click",function(){if($("settings").hidden)openSettings();else $("settings").hidden=true});
+  $("m-xl").addEventListener("click",exportXlsx);
+  $("m-dash").addEventListener("click",function(){$("dash").hidden=false;dash(curP)});
+  $("d-close").addEventListener("click",function(){$("dash").hidden=true});
+  $("d-pdf").addEventListener("click",dashPdf);
+  document.querySelectorAll("#dper button").forEach(function(b){b.addEventListener("click",function(){dash(b.dataset.p)})});
+  $("s-close").addEventListener("click",function(){$("settings").hidden=true});
+  $("s-save").addEventListener("click",saveSettings);
+  $("s-reset").addEventListener("click",function(){if(confirm("تنظیمات به حالت پیش‌فرض برگردد؟")){cfg=JSON.parse(JSON.stringify(DEF));saveCfg();openSettings();render()}});
+  $("s-parse").addEventListener("click",function(){
+    var src=$("s-src").value,ids=parseSrc(src);
+    if(!ids||!ids.order){toast("شناسه‌ها پیدا نشد؛ سورس کامل صفحه را بچسبانید");return}
+    Object.keys(ids).forEach(function(k){$("id-"+k).value=ids[k]});
+    var m=src.match(/\/forms\/d\/e\/([\w-]+)\/viewform/);
+    if(m)$("s-url").value="https://docs.google.com/forms/d/e/"+m[1]+"/viewform";
+    toast("استخراج شد؛ حالا ذخیره را بزنید");
+  });
+
+  $("go").addEventListener("click",function(e){
+    var v=vals(),m=missing(v);
+    if(mode==="bulk"&&queue.length&&pos>=queue.length){e.preventDefault();toast("همهٔ سفارش‌های لیست باز شد");return}
+    if(m){e.preventDefault();toast("اول این را پر کنید: "+m);return}
+    this.href=url(v);
+    items.push({id:Date.now()+"-"+Math.random().toString(36).slice(2,6),t:Date.now(),r:v.order,k:v.task,c:v.call,e:cfg.ext,s:v.reasons});
+    save();saveSel();
+    if(mode==="bulk"){pos++;qui()}else{$("order").value="";$("dupHint").textContent=""}
+    render();toast("ثبت شد | این ساعت: "+hrPct+" | در فرم Submit را بزنید");
+  });
+  $("copy").addEventListener("click",function(){
+    var v=vals(),m=missing(v);
+    if(m){toast("اول این را پر کنید: "+m);return}
+    try{navigator.clipboard.writeText(url(v)).then(function(){toast("لینک کپی شد")},function(){toast("کپی نشد")})}catch(e){toast("کپی نشد")}
+  });
+  $("order").addEventListener("input",function(){
+    var v=$("order").value,t=v.split(SEP).filter(Boolean);
+    if(t.length>1){
+      $("bulk").value=t.join("\n");$("order").value="";$("dupHint").textContent="";
+      document.querySelector('input[name="mode"][value="bulk"]').checked=true;setMode("bulk");parseBulk();return}
+    var c=countMap()[v.trim()];$("dupHint").textContent=c?"قبلاً "+nf.format(c)+" بار ثبت شده":"";
+  });
+  document.querySelectorAll('input[name="mode"]').forEach(function(r){r.addEventListener("change",function(){setMode(r.value)})});
+  $("bulk").addEventListener("input",parseBulk);
+  $("qreset").addEventListener("click",function(){pos=0;qui()});
+  document.addEventListener("keydown",function(e){
+    if(e.key!=="Enter"||!$("settings").hidden||!$("dash").hidden)return;
+    var t=e.target;
+    if(t.id==="order"||(t.id==="bulk"&&(e.ctrlKey||e.metaKey))||t===document.body){e.preventDefault();$("go").click()}
+  });
+  function focusOrder(){if($("settings").hidden&&mode==="single"&&document.activeElement===document.body||document.activeElement===$("order"))return;if($("settings").hidden&&mode==="single")$("order").focus({preventScroll:true})}
+  window.addEventListener("focus",function(){setTimeout(function(){if($("settings").hidden&&$("welcome").hidden&&$("dash").hidden&&mode==="single")$("order").focus({preventScroll:true})},50)});
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)window.dispatchEvent(new Event("focus"))});
+  $("q").addEventListener("input",render);$("ft").addEventListener("change",render);$("fdup").addEventListener("change",render);
+  $("xl").addEventListener("click",exportXlsx);
+  $("clear").addEventListener("click",function(){if(items.length&&confirm("همهٔ ثبت‌ها پاک شود؟")){items=[];save();render()}});
+  $("copyList").addEventListener("click",function(){
+    var txt=items.map(function(i,k){return nf.format(k+1)+". "+(i.r||"بدون شماره")+(i.k?" - "+i.k:"")+" - "+fd.format(new Date(i.t))+" "+ft.format(new Date(i.t))}).join("\n");
+    if(!txt){toast("لیست خالی است");return}
+    try{navigator.clipboard.writeText(txt).then(function(){toast("کپی شد")},function(){toast("کپی نشد")})}catch(e){toast("کپی نشد")}
+  });
+
+  chips("tasks","task","radio",TASKS);chips("reasons","reason","checkbox",REASONS);chips("calls","call","radio",CALLS);
+  var o=document.createElement("option");o.value="";o.textContent="همهٔ تسک‌ها";$("ft").appendChild(o);
+  TASKS.forEach(function(t){var x=document.createElement("option");x.textContent=t;$("ft").appendChild(x)});
+  buildSettings();load();restoreSel();render();setMode("single");setInterval(render,60000);
+  $("bf").addEventListener("change",function(){readFile(this.files[0]);this.value=""});
+  $("m-imp").addEventListener("click",function(){$("imp").click()});
+  $("imp").addEventListener("change",function(){importXlsx(this.files[0]);this.value=""});
+  $("dday").addEventListener("change",function(){curDay=this.value;dash("day")});
+  $("fday").addEventListener("change",render);
+  if(!cfg.ext)$("welcome").hidden=false;
+  $("w-go").addEventListener("click",function(){var v=$("w-ext").value.trim();if(!v){toast("داخلی را وارد کنید");return}cfg.ext=v;cfg.email=$("w-email").value.trim();saveCfg();$("welcome").hidden=true;toast("آماده‌اید، شماره سفارش را بزنید");$("order").focus({preventScroll:true})});
+  $("w-ext").addEventListener("keydown",function(e){if(e.key==="Enter")$("w-go").click()});
+  setTimeout(function(){(cfg.ext?$("order"):$("w-ext")).focus({preventScroll:true})},100);
+})();
+</script>
+</body>
+</html>
