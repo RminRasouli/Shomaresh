@@ -78,6 +78,12 @@ li button{background:none;border:0;color:var(--dg);font:inherit;font-size:.82rem
 .wg label{font-size:.8rem;color:var(--mu)}
 .wg input{padding:8px 10px}
 summary{cursor:pointer;margin-top:12px;color:var(--ac);font-size:.9rem}
+#news{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;padding:18px}
+#news .nb{background:var(--sf);color:var(--ink);border:1px solid var(--ln);border-radius:16px;max-width:420px;width:100%;padding:20px 18px;box-shadow:0 10px 40px rgba(0,0,0,.3)}
+#news h3{margin:0 0 8px;font-size:1.05rem;font-weight:800;color:var(--ac)}
+#news p{margin:6px 0;font-size:.92rem}
+#news ul{margin:8px 0;padding-inline-start:20px;font-size:.88rem;color:var(--mu)}
+#news .ghost{width:100%;margin-top:12px}
 .toast{position:fixed;inset-inline:0;bottom:calc(16px + env(safe-area-inset-bottom,0px));margin:auto;width:max-content;max-width:90%;background:var(--ink);color:var(--bg);padding:8px 16px;border-radius:999px;font-size:.88rem;opacity:0;pointer-events:none;transition:opacity .2s}
 .toast.show{opacity:1}
 main{position:relative}
@@ -262,6 +268,16 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
     <div id="dbody"></div>
   </div>
 </div>
+<div id="news" hidden><div class="nb" role="dialog" aria-modal="true" aria-labelledby="news-t">
+  <h3 id="news-t">🎉 فرم ثبت اطلاعات تماس ۷ آپدیت شد</h3>
+  <p>سلام همکار عزیز 👋 فرم جدید «ثبت اطلاعات تماس کارشناسان ۷» روی سفارش‌یار فعال شد. ما به فکر شما هستیم تا کارتون راحت‌تر باشه.</p>
+  <ul>
+    <li>لینک و فیلدهای فرم جدید خودکار تنظیم شد؛ نیازی به تغییر تنظیمات نیست.</li>
+    <li>گزینهٔ «حوادث ترافیکی» در فرم جدید وجود ندارد.</li>
+    <li>سوابق و آمار قبلی شما سر جای خودش حفظ شده است.</li>
+  </ul>
+  <button class="ghost pri" id="news-ok" type="button">متوجه شدم</button>
+</div></div>
 <div class="toast" id="toast"></div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -269,13 +285,14 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
 <script>
 (function(){
   var KEY="form-counter-v1",CFG="fc-cfg",SEL="fc-sel",SEP=/[\s,،;؛]+/;
-  var TASKS=["صدور","وضعیت سلر","حوادث ترافیکی","وضعیت ارجاع","وضعیت اپراتور","گروه هماهنگی"];
+  var TASKS=["صدور","وضعیت سلر","وضعیت ارجاع","وضعیت اپراتور","گروه هماهنگی"];
+  var TK=TASKS.concat(["حوادث ترافیکی"]);
   var REASONS=["درخواست کد پستی","درخواست مدرک","درخواست پرداخت","سایر"];
   var CALLS=["ورودی","خروجی","بدون تماس"];
   var IDN={ext:"داخلی کارشناس",task:"تسک",order:"شماره سفارش",reason:"علت تماس",call:"نوع تماس"};
-  var DEF={url:"https://docs.google.com/forms/d/e/1FAIpQLSc4oMUGwpTCE445eQ1FxyA0X625dhcavKCEjnH-hAnumSJQwg/viewform",ext:"",email:"",lb:0,fv:2,v:3,target:125,start:0,hs:16,he:24,ht:18,
+  var DEF={url:"https://docs.google.com/forms/d/e/1FAIpQLSeckUTeYffL6MAn8k7ZJ1GqQQSlxDBvYBBawIH-jNhy0cXqsQ/viewform",ext:"",email:"",lb:0,fv:3,v:3,target:125,start:0,hs:16,he:24,ht:18,
     w:{"صدور":1,"وضعیت سلر":1,"حوادث ترافیکی":1,"وضعیت ارجاع":1.5,"وضعیت اپراتور":1,"گروه هماهنگی":1.5},
-    ids:{ext:"1971544154",task:"396709444",order:"1601676938",reason:"1118838729",call:"674556504"}};
+    ids:{ext:"1108466284",task:"284193604",order:"379330109",reason:"407286308",call:"1322446538"}};
   var cfg=JSON.parse(JSON.stringify(DEF)),items=[],mode="single",queue=[],pos=0;
   var $=function(id){return document.getElementById(id)};
   var nf=new Intl.NumberFormat("fa-IR");
@@ -296,9 +313,9 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
   function load(){
     try{var r=localStorage.getItem(KEY);items=r?JSON.parse(r):[];if(!Array.isArray(items))items=[]}catch(e){items=[]}
     try{var s=JSON.parse(localStorage.getItem(CFG)||"null");if(s){
-      if(s.fv===2&&s.url)cfg.url=s.url;if(s.ext)cfg.ext=s.ext;if(s.email)cfg.email=s.email;if(s.lb)cfg.lb=+s.lb;if(s.start>=0&&s.start<24)cfg.start=+s.start;
+      if(s.fv===DEF.fv&&s.url)cfg.url=s.url;if(s.ext)cfg.ext=s.ext;if(s.email)cfg.email=s.email;if(s.lb)cfg.lb=+s.lb;if(s.start>=0&&s.start<24)cfg.start=+s.start;
       if(s.v===3){if(s.target>0)cfg.target=+s.target;Object.assign(cfg.w,s.w||{})}
-      if(s.fv===2)Object.assign(cfg.ids,s.ids||{});if(s.ht>0)cfg.ht=+s.ht;if(s.hs>=0)cfg.hs=+s.hs;if(s.he>0)cfg.he=+s.he}}catch(e){}
+      if(s.fv===DEF.fv)Object.assign(cfg.ids,s.ids||{});if(s.ht>0)cfg.ht=+s.ht;if(s.hs>=0)cfg.hs=+s.hs;if(s.he>0)cfg.he=+s.he}}catch(e){}
   }
   function save(){try{localStorage.setItem(KEY,JSON.stringify(items))}catch(e){toast("ذخیره‌سازی در این مرورگر کار نمی‌کند")}}
   function saveCfg(){try{localStorage.setItem(CFG,JSON.stringify(cfg))}catch(e){}}
@@ -485,13 +502,13 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
     var hr=[],hmx=cfg.ht;
     for(var x=cfg.hs;x<cfg.he;x++){var v=(hh[x]||0)/nd;hr.push([nf.format(x),v,nf.format(+v.toFixed(1)),v>=cfg.ht]);hmx=Math.max(hmx,v)}
     h+='<section class="dc"><h3>'+((p==="today"||p==="day")?"سفارش هر ساعت":"میانگین سفارش هر ساعت")+' (هدف: '+nf.format(cfg.ht)+' در ساعت)</h3>'+cl(hr,hmx)+'</section>';
-    h+='<section class="dc"><h3>تفکیک تسک (تعداد و معادل اپراتور)</h3>'+hb(TASKS.filter(function(t){return tk[t]}).map(function(t){return[t,tk[t]," ("+nf.format(+tp[t].toFixed(1))+")"]}),Math.max.apply(null,TASKS.map(function(t){return tk[t]||0}))||1)+'</section>';
+    h+='<section class="dc"><h3>تفکیک تسک (تعداد و معادل اپراتور)</h3>'+hb(TK.filter(function(t){return tk[t]}).map(function(t){return[t,tk[t]," ("+nf.format(+tp[t].toFixed(1))+")"]}),Math.max.apply(null,TK.map(function(t){return tk[t]||0}))||1)+'</section>';
     h+='<section class="dc"><h3>نوع و علت تماس</h3>'+hb(CALLS.map(function(c){return[c,cc[c]||0]}),Math.max.apply(null,CALLS.map(function(c){return cc[c]||0}))||1)+'<div style="height:10px"></div>'+hb(REASONS.map(function(r){return[r,rs[r]||0]}),Math.max.apply(null,REASONS.map(function(r){return rs[r]||0}))||1)+'</section>';
     h+='<section class="dc"><h3>سفارش‌های تکراری ('+nf.format(rep.length)+')</h3>'+(rep.length?'<div class="tb">'+rep.slice(0,12).map(function(k){return'<span class="pill">'+esc(k)+' ×'+nf.format(oc[k])+'</span>'}).join("")+'</div>':'<div class="pt">موردی نیست</div>')+'</section>';
     var rl=["📊 گزارش "+PER[p]+" | داخلی "+cfg.ext];
     if(p==="today"||p==="day")rl.push("سفارش ثبت‌شده: "+nf.format(its.length)+" | معادل اپراتور: "+nf.format(+pts.toFixed(1))+" از "+nf.format(cfg.target)+" ("+nf.format(Math.round(pts/cfg.target*100))+"٪)");
     else rl.push("سفارش ثبت‌شده: "+nf.format(its.length)+" در "+nf.format(dl.length)+" روز | میانگین درصد روزانه: "+nf.format(Math.round(avg))+"٪"+(best?" | بهترین روز: "+nf.format(Math.round(best.pts/cfg.target*100))+"٪ ("+dayFmt.format(new Date(best.t))+")":""));
-    var tl=TASKS.filter(function(t){return tk[t]}).map(function(t){return t+" "+nf.format(tk[t])});if(tl.length)rl.push("تسک‌ها: "+tl.join("، "));
+    var tl=TK.filter(function(t){return tk[t]}).map(function(t){return t+" "+nf.format(tk[t])});if(tl.length)rl.push("تسک‌ها: "+tl.join("، "));
     var cl2=CALLS.filter(function(c){return cc[c]}).map(function(c){return c+" "+nf.format(cc[c])});if(cl2.length)rl.push("تماس‌ها: "+cl2.join("، "));
     var pk=-1,pn=0;for(var z in hh){if(hh[z]>pn){pn=hh[z];pk=+z}}
     if(pk>=0)rl.push("ساعت اوج: "+nf.format(pk)+" تا "+nf.format(pk+1)+" ("+nf.format(pn)+" سفارش)");
@@ -516,7 +533,7 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
     var hr=[],hm=cfg.ht;
     for(var x=cfg.hs;x<cfg.he;x++){var v=(S.hh[x]||0)/nd;hr.push([nf.format(x),v,nf.format(+v.toFixed(1)),v>=cfg.ht]);hm=Math.max(hm,v)}
     h+='<h4>'+(single?"سفارش هر ساعت":"میانگین سفارش هر ساعت")+' (هدف: '+nf.format(cfg.ht)+')</h4>'+cl(hr,hm);
-    h+='<h4>تفکیک تسک (تعداد و معادل اپراتور)</h4>'+hb(TASKS.filter(function(t){return S.tk[t]}).map(function(t){return[t,S.tk[t]," ("+nf.format(+S.tp[t].toFixed(1))+")"]}),mx(TASKS.map(function(t){return S.tk[t]||0})));
+    h+='<h4>تفکیک تسک (تعداد و معادل اپراتور)</h4>'+hb(TK.filter(function(t){return S.tk[t]}).map(function(t){return[t,S.tk[t]," ("+nf.format(+S.tp[t].toFixed(1))+")"]}),mx(TK.map(function(t){return S.tk[t]||0})));
     h+='<h4>علت تماس</h4>'+hb(REASONS.filter(function(r){return S.rs[r]}).map(function(r){return[r,S.rs[r]]}),mx(REASONS.map(function(r){return S.rs[r]||0})));
     if(S.rep.length)h+='<h4>سفارش‌های تکراری</h4><div>'+S.rep.slice(0,10).map(function(k){return'<span class="rp">'+esc(k)+' ('+nf.format(S.oc[k])+' بار)</span>'}).join("")+'</div>';
     h+='</div><div class="rf">ساخته‌شده با سفارش‌یار | '+fd.format(new Date())+' '+ft.format(new Date())+'</div>';
@@ -569,7 +586,7 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
     $("pace").textContent=paceTxt;
     var tc={};todays.forEach(function(i){if(i.k)tc[i.k]=(tc[i.k]||0)+1});
     var tb=$("tb");tb.innerHTML="";
-    TASKS.forEach(function(t){if(!tc[t])return;var b=document.createElement("button");b.type="button";b.className="pill";b.textContent=t+" "+nf.format(tc[t]);
+    TK.forEach(function(t){if(!tc[t])return;var b=document.createElement("button");b.type="button";b.className="pill";b.textContent=t+" "+nf.format(tc[t]);
       b.addEventListener("click",function(){$("ft").value=$("ft").value===t?"":t;render()});tb.appendChild(b)});
     $("today").textContent=nf.format(todays.length);
     $("week").textContent=nf.format(items.filter(function(i){return i.t>=ws}).length);
@@ -761,7 +778,7 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
 
   chips("tasks","task","radio",TASKS);chips("reasons","reason","checkbox",REASONS);chips("calls","call","radio",CALLS);
   var o=document.createElement("option");o.value="";o.textContent="همهٔ تسک‌ها";$("ft").appendChild(o);
-  TASKS.forEach(function(t){var x=document.createElement("option");x.textContent=t;$("ft").appendChild(x)});
+  TK.forEach(function(t){var x=document.createElement("option");x.textContent=t;$("ft").appendChild(x)});
   buildSettings();load();restoreSel();render();setMode("single");setInterval(render,60000);
   $("bf").addEventListener("change",function(){readFile(this.files[0]);this.value=""});
   $("m-imp").addEventListener("click",function(){$("imp").click()});
@@ -803,6 +820,11 @@ li.dh{display:block;background:var(--bg);font-size:.8rem;font-weight:600;color:v
     var el=document.querySelectorAll(n<=6?'input[name="task"]':'input[name="call"]')[n<=6?n-1:n-7];
     if(el){e.preventDefault();el.checked=true;if(mode==="single")$("order").focus({preventScroll:true})}
   });
+  (function(){var NK="fc-news-f7";try{if(localStorage.getItem(NK))return;
+    if(!cfg.ext){localStorage.setItem(NK,"1");return}
+    $("news").hidden=false;
+    $("news-ok").addEventListener("click",function(){$("news").hidden=true;try{localStorage.setItem(NK,"1")}catch(e){}});
+  }catch(e){}})();
   if(!cfg.ext)$("welcome").hidden=false;
   $("w-go").addEventListener("click",function(){var v=$("w-ext").value.trim();if(!v){toast("داخلی را وارد کنید");return}cfg.ext=v;cfg.email=$("w-email").value.trim();saveCfg();$("welcome").hidden=true;toast("آماده‌اید، شماره سفارش را بزنید");$("order").focus({preventScroll:true})});
   $("w-ext").addEventListener("keydown",function(e){if(e.key==="Enter")$("w-go").click()});
